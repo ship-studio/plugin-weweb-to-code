@@ -62,7 +62,10 @@ Plans:
   3. Plugin warns the user when the estimated token count exceeds the threshold
   4. User can copy the full brief to clipboard with one click
   5. Brief is saved to .shipstudio/assets/brief.md so it persists across sessions
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 03-01-PLAN.md — Brief types, generateBrief() with all section builders, io.ts for save/clipboard, unit tests
+- [ ] 03-02-PLAN.md — MainView mode selection UI, brief generation wiring, done-state results panel with copy/warning
 **UI hint**: yes
 
 ### Phase 4: Migration Plan & Resume UI
@@ -87,5 +90,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
 | 2. Parsing Pipeline | 5/5 | Complete   | 2026-03-24 |
-| 3. Brief Generation & Output | 0/TBD | Not started | - |
+| 3. Brief Generation & Output | 0/2 | In progress | - |
 | 4. Migration Plan & Resume UI | 0/TBD | Not started | - |
