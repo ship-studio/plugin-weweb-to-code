@@ -13,7 +13,7 @@ Four phases deliver a complete Ship Studio plugin: the toolbar shell and ZIP ing
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Plugin Shell & ZIP Ingestion** - Ship Studio toolbar integration, file picker, ZIP extraction, and WeWeb export validation (completed 2026-03-24)
-- [ ] **Phase 2: Parsing Pipeline** - Design token extraction, component tree analysis, interactions/state, and asset copying
+- [x] **Phase 2: Parsing Pipeline** - Design token extraction, component tree analysis, interactions/state, and asset copying (completed 2026-03-24)
 - [ ] **Phase 3: Brief Generation & Output** - Markdown brief assembly, mode selection, clipboard copy, and file save
 - [ ] **Phase 4: Migration Plan & Resume UI** - Hierarchical migration plan JSON, progress tracking, and multi-session resume
 
@@ -46,11 +46,11 @@ Plans:
   5. Images and icons are copied to .shipstudio/assets/ and an asset manifest with file counts and project-relative paths is written
 **Plans**: 5 plans
 Plans:
-- [ ] 02-01-PLAN.md — Phase 2 type contracts + design token extraction (CSS classification, font ranking, color dedup, Google Fonts)
-- [ ] 02-02-PLAN.md — Asset enumeration and copying (images/, icons/ to .shipstudio/assets/, manifest builder)
-- [ ] 02-03-PLAN.md — Page discovery + 3-pronged recursive tree walker (component types, dynamic bindings, breakpoints)
-- [ ] 02-04-PLAN.md — Workflow/interaction parsing (chain linearization, variable/collection inventory)
-- [ ] 02-05-PLAN.md — Shared layout detection + analysis orchestrator + MainView integration
+- [x] 02-01-PLAN.md — Phase 2 type contracts + design token extraction (CSS classification, font ranking, color dedup, Google Fonts)
+- [x] 02-02-PLAN.md — Asset enumeration and copying (images/, icons/ to .shipstudio/assets/, manifest builder)
+- [x] 02-03-PLAN.md — Page discovery + 3-pronged recursive tree walker (component types, dynamic bindings, breakpoints)
+- [x] 02-04-PLAN.md — Workflow/interaction parsing (chain linearization, variable/collection inventory)
+- [x] 02-05-PLAN.md — Shared layout detection + analysis orchestrator + MainView integration
 
 ### Phase 3: Brief Generation & Output
 **Goal**: Users receive a complete, structured Markdown brief they can copy to an AI agent to begin reconstruction
@@ -86,6 +86,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
-| 2. Parsing Pipeline | 0/5 | Not started | - |
+| 2. Parsing Pipeline | 5/5 | Complete   | 2026-03-24 |
 | 3. Brief Generation & Output | 0/TBD | Not started | - |
 | 4. Migration Plan & Resume UI | 0/TBD | Not started | - |

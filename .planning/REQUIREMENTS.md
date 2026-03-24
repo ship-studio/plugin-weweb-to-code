@@ -15,40 +15,40 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Asset Management
 
-- [ ] **ASSET-01**: Plugin copies images/ directory to .shipstudio/assets/images/
-- [ ] **ASSET-02**: Plugin copies icons/ directory to .shipstudio/assets/icons/
-- [ ] **ASSET-03**: Plugin copies fonts (from CSS @font-face or Google Font links) to asset manifest
-- [ ] **ASSET-04**: Plugin builds asset manifest with file counts and project-relative paths
+- [x] **ASSET-01**: Plugin copies images/ directory to .shipstudio/assets/images/
+- [x] **ASSET-02**: Plugin copies icons/ directory to .shipstudio/assets/icons/
+- [x] **ASSET-03**: Plugin copies fonts (from CSS @font-face or Google Font links) to asset manifest
+- [x] **ASSET-04**: Plugin builds asset manifest with file counts and project-relative paths
 
 ### Design System
 
-- [ ] **DESIGN-01**: Plugin extracts typography tokens from CSS custom properties (weight, size, line-height, font-family)
-- [ ] **DESIGN-02**: Plugin extracts color tokens from CSS custom properties (hex values)
-- [ ] **DESIGN-03**: Plugin extracts spacing tokens from CSS custom properties
-- [ ] **DESIGN-04**: Plugin infers semantic labels for typography tokens (h1-h6 from size hierarchy)
-- [ ] **DESIGN-05**: Plugin infers semantic labels for color tokens (primary, secondary, gray scale from hue/lightness)
-- [ ] **DESIGN-06**: Plugin captures external font references (Google Fonts links from HTML head)
+- [x] **DESIGN-01**: Plugin extracts typography tokens from CSS custom properties (weight, size, line-height, font-family)
+- [x] **DESIGN-02**: Plugin extracts color tokens from CSS custom properties (hex values)
+- [x] **DESIGN-03**: Plugin extracts spacing tokens from CSS custom properties
+- [x] **DESIGN-04**: Plugin infers semantic labels for typography tokens (h1-h6 from size hierarchy)
+- [x] **DESIGN-05**: Plugin infers semantic labels for color tokens (primary, secondary, gray scale from hue/lightness)
+- [x] **DESIGN-06**: Plugin captures external font references (Google Fonts links from HTML head)
 
 ### Page & Component Analysis
 
-- [ ] **PAGE-01**: Plugin discovers all pages from data/*.json files
-- [ ] **PAGE-02**: Plugin extracts URL route for each page from page.paths.default
-- [ ] **PAGE-03**: Plugin parses section hierarchy from each page's sections dict
-- [ ] **PAGE-04**: Plugin walks wwObjects component tree recursively across all 13 slot types (children, formContent, leftIcon, rightIcon, overlayElement, triggerElement, etc.)
-- [ ] **PAGE-05**: Plugin detects shared layout sections via sectionBaseId frequency across pages
-- [ ] **PAGE-06**: Plugin extracts responsive breakpoint style diffs (mobile/tablet/default) per component
-- [ ] **PAGE-07**: Plugin maps wwObjectBaseId UUIDs to component type labels via lookup table
-- [ ] **PAGE-08**: Plugin falls back to wwObject name field when wwObjectBaseId is not in lookup table
-- [ ] **PAGE-09**: Plugin identifies library components via libraryComponentBaseId cross-reference
+- [x] **PAGE-01**: Plugin discovers all pages from data/*.json files
+- [x] **PAGE-02**: Plugin extracts URL route for each page from page.paths.default
+- [x] **PAGE-03**: Plugin parses section hierarchy from each page's sections dict
+- [x] **PAGE-04**: Plugin walks wwObjects component tree recursively across all 13 slot types (children, formContent, leftIcon, rightIcon, overlayElement, triggerElement, etc.)
+- [x] **PAGE-05**: Plugin detects shared layout sections via sectionBaseId frequency across pages
+- [x] **PAGE-06**: Plugin extracts responsive breakpoint style diffs (mobile/tablet/default) per component
+- [x] **PAGE-07**: Plugin maps wwObjectBaseId UUIDs to component type labels via lookup table
+- [x] **PAGE-08**: Plugin falls back to wwObject name field when wwObjectBaseId is not in lookup table
+- [x] **PAGE-09**: Plugin identifies library components via libraryComponentBaseId cross-reference
 
 ### Interactions & State
 
-- [ ] **INTERACT-01**: Plugin captures page-level workflows (triggers: page-load, page-unload, etc. → action chains)
-- [ ] **INTERACT-02**: Plugin captures element-level interactions from wwObject._state.interactions[] (triggers: click, hover, etc.)
-- [ ] **INTERACT-03**: Plugin cross-references variable IDs to human-readable names in workflow output
-- [ ] **INTERACT-04**: Plugin inventories variables with name, type, defaultValue, and persistence flags (isLocalStorage, isPersistentOnNav)
-- [ ] **INTERACT-05**: Plugin inventories collections with name, type, and table references as data source stubs
-- [ ] **INTERACT-06**: Plugin flags dynamic bindings (__wwtype: "f" or "js") with [DYNAMIC] annotation and uses defaultValue for visual approximation
+- [x] **INTERACT-01**: Plugin captures page-level workflows (triggers: page-load, page-unload, etc. → action chains)
+- [x] **INTERACT-02**: Plugin captures element-level interactions from wwObject._state.interactions[] (triggers: click, hover, etc.)
+- [x] **INTERACT-03**: Plugin cross-references variable IDs to human-readable names in workflow output
+- [x] **INTERACT-04**: Plugin inventories variables with name, type, defaultValue, and persistence flags (isLocalStorage, isPersistentOnNav)
+- [x] **INTERACT-05**: Plugin inventories collections with name, type, and table references as data source stubs
+- [x] **INTERACT-06**: Plugin flags dynamic bindings (__wwtype: "f" or "js") with [DYNAMIC] annotation and uses defaultValue for visual approximation
 
 ### Brief Generation
 
@@ -74,7 +74,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UX-01**: Plugin loads in Ship Studio toolbar with WeWeb icon
 - [x] **UX-02**: Plugin opens modal on toolbar button click
 - [ ] **UX-03**: User can choose between pixel-perfect and best-site mode (with preserve options)
-- [ ] **UX-04**: Plugin shows step-by-step progress during extraction and analysis
+- [x] **UX-04**: Plugin shows step-by-step progress during extraction and analysis
 - [ ] **UX-05**: User can copy brief to clipboard
 - [ ] **UX-06**: Plugin saves brief to .shipstudio/assets/brief.md
 - [ ] **UX-07**: Plugin detects existing migration-plan.json on mount and shows progress UI
@@ -116,32 +116,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ZIP-03 | Phase 1 | Complete |
 | UX-01 | Phase 1 | Complete |
 | UX-02 | Phase 1 | Complete |
-| DESIGN-01 | Phase 2 | Pending |
-| DESIGN-02 | Phase 2 | Pending |
-| DESIGN-03 | Phase 2 | Pending |
-| DESIGN-04 | Phase 2 | Pending |
-| DESIGN-05 | Phase 2 | Pending |
-| DESIGN-06 | Phase 2 | Pending |
-| PAGE-01 | Phase 2 | Pending |
-| PAGE-02 | Phase 2 | Pending |
-| PAGE-03 | Phase 2 | Pending |
-| PAGE-04 | Phase 2 | Pending |
-| PAGE-05 | Phase 2 | Pending |
-| PAGE-06 | Phase 2 | Pending |
-| PAGE-07 | Phase 2 | Pending |
-| PAGE-08 | Phase 2 | Pending |
-| PAGE-09 | Phase 2 | Pending |
-| INTERACT-01 | Phase 2 | Pending |
-| INTERACT-02 | Phase 2 | Pending |
-| INTERACT-03 | Phase 2 | Pending |
-| INTERACT-04 | Phase 2 | Pending |
-| INTERACT-05 | Phase 2 | Pending |
-| INTERACT-06 | Phase 2 | Pending |
-| ASSET-01 | Phase 2 | Pending |
-| ASSET-02 | Phase 2 | Pending |
-| ASSET-03 | Phase 2 | Pending |
-| ASSET-04 | Phase 2 | Pending |
-| UX-04 | Phase 2 | Pending |
+| DESIGN-01 | Phase 2 | Complete |
+| DESIGN-02 | Phase 2 | Complete |
+| DESIGN-03 | Phase 2 | Complete |
+| DESIGN-04 | Phase 2 | Complete |
+| DESIGN-05 | Phase 2 | Complete |
+| DESIGN-06 | Phase 2 | Complete |
+| PAGE-01 | Phase 2 | Complete |
+| PAGE-02 | Phase 2 | Complete |
+| PAGE-03 | Phase 2 | Complete |
+| PAGE-04 | Phase 2 | Complete |
+| PAGE-05 | Phase 2 | Complete |
+| PAGE-06 | Phase 2 | Complete |
+| PAGE-07 | Phase 2 | Complete |
+| PAGE-08 | Phase 2 | Complete |
+| PAGE-09 | Phase 2 | Complete |
+| INTERACT-01 | Phase 2 | Complete |
+| INTERACT-02 | Phase 2 | Complete |
+| INTERACT-03 | Phase 2 | Complete |
+| INTERACT-04 | Phase 2 | Complete |
+| INTERACT-05 | Phase 2 | Complete |
+| INTERACT-06 | Phase 2 | Complete |
+| ASSET-01 | Phase 2 | Complete |
+| ASSET-02 | Phase 2 | Complete |
+| ASSET-03 | Phase 2 | Complete |
+| ASSET-04 | Phase 2 | Complete |
+| UX-04 | Phase 2 | Complete |
 | BRIEF-01 | Phase 3 | Pending |
 | BRIEF-02 | Phase 3 | Pending |
 | BRIEF-03 | Phase 3 | Pending |
