@@ -24,8 +24,9 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 - ✓ Plugin extracts responsive breakpoint values (mobile/tablet/default) from component state objects — Phase 2
 - ✓ Plugin maps WeWeb component types to migration guidance (what each component does, how to rebuild it) — Phase 2
 
+- ✓ Plugin generates markdown brief with site overview, design system, page structure, components, workflows, and assets — Phase 3
+
 ### Active
-- [ ] Plugin generates markdown brief with site overview, design system, page structure, components, workflows, and assets
 - [ ] Plugin generates hierarchical migration plan (JSON) tracking shared layout → pages → sections
 - [ ] User can choose between pixel-perfect mode and best-site mode (with preserve options)
 - [ ] User can copy brief to clipboard
@@ -86,4 +87,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after Phase 2 completion*
+*Last updated: 2026-03-24 after Phase 3 completion*
