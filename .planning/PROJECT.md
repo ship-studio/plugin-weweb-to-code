@@ -26,8 +26,9 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 
 - ✓ Plugin generates markdown brief with site overview, design system, page structure, components, workflows, and assets — Phase 3
 
+- ✓ Plugin generates hierarchical migration plan (JSON) tracking shared layout → pages → sections — Phase 4
+
 ### Active
-- [ ] Plugin generates hierarchical migration plan (JSON) tracking shared layout → pages → sections
 - [ ] User can choose between pixel-perfect mode and best-site mode (with preserve options)
 - [ ] User can copy brief to clipboard
 - [ ] Plugin detects existing migration plan and shows progress UI with resume prompt
@@ -87,4 +88,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after Phase 3 completion*
+*Last updated: 2026-03-24 after Phase 4 completion (all phases complete)*
