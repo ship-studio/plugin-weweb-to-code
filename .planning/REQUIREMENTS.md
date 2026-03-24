@@ -52,16 +52,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Brief Generation
 
-- [ ] **BRIEF-01**: Plugin generates markdown brief with site overview (page count, asset count, component count)
-- [ ] **BRIEF-02**: Brief includes design system section with classified token tables (typography, colors, spacing)
-- [ ] **BRIEF-03**: Brief includes shared layout section identifying nav/header/sidebar/footer with confidence level
-- [ ] **BRIEF-04**: Brief includes per-page sections with component summaries and section structure
-- [ ] **BRIEF-05**: Brief includes responsive breakpoint diffs per section
-- [ ] **BRIEF-06**: Brief includes workflow/interaction specs
-- [ ] **BRIEF-07**: Brief includes asset inventory with paths and metadata
-- [ ] **BRIEF-08**: Brief includes migration guidance per component type
-- [ ] **BRIEF-09**: Plugin estimates token count and shows warning if brief exceeds threshold
-- [ ] **BRIEF-10**: Brief content adapts based on selected mode (pixel-perfect vs best-site)
+- [x] **BRIEF-01**: Plugin generates markdown brief with site overview (page count, asset count, component count)
+- [x] **BRIEF-02**: Brief includes design system section with classified token tables (typography, colors, spacing)
+- [x] **BRIEF-03**: Brief includes shared layout section identifying nav/header/sidebar/footer with confidence level
+- [x] **BRIEF-04**: Brief includes per-page sections with component summaries and section structure
+- [x] **BRIEF-05**: Brief includes responsive breakpoint diffs per section
+- [x] **BRIEF-06**: Brief includes workflow/interaction specs
+- [x] **BRIEF-07**: Brief includes asset inventory with paths and metadata
+- [x] **BRIEF-08**: Brief includes migration guidance per component type
+- [x] **BRIEF-09**: Plugin estimates token count and shows warning if brief exceeds threshold
+- [x] **BRIEF-10**: Brief content adapts based on selected mode (pixel-perfect vs best-site)
 
 ### Migration Plan
 
@@ -73,10 +73,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **UX-01**: Plugin loads in Ship Studio toolbar with WeWeb icon
 - [x] **UX-02**: Plugin opens modal on toolbar button click
-- [ ] **UX-03**: User can choose between pixel-perfect and best-site mode (with preserve options)
+- [x] **UX-03**: User can choose between pixel-perfect and best-site mode (with preserve options)
 - [x] **UX-04**: Plugin shows step-by-step progress during extraction and analysis
-- [ ] **UX-05**: User can copy brief to clipboard
-- [ ] **UX-06**: Plugin saves brief to .shipstudio/assets/brief.md
+- [x] **UX-05**: User can copy brief to clipboard
+- [x] **UX-06**: Plugin saves brief to .shipstudio/assets/brief.md
 - [ ] **UX-07**: Plugin detects existing migration-plan.json on mount and shows progress UI
 - [ ] **UX-08**: Progress UI polls migration-plan.json and displays tree with status symbols
 - [ ] **UX-09**: User can copy resume prompt for continuing migration in new AI session
@@ -142,19 +142,19 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ASSET-03 | Phase 2 | Complete |
 | ASSET-04 | Phase 2 | Complete |
 | UX-04 | Phase 2 | Complete |
-| BRIEF-01 | Phase 3 | Pending |
-| BRIEF-02 | Phase 3 | Pending |
-| BRIEF-03 | Phase 3 | Pending |
-| BRIEF-04 | Phase 3 | Pending |
-| BRIEF-05 | Phase 3 | Pending |
-| BRIEF-06 | Phase 3 | Pending |
-| BRIEF-07 | Phase 3 | Pending |
-| BRIEF-08 | Phase 3 | Pending |
-| BRIEF-09 | Phase 3 | Pending |
-| BRIEF-10 | Phase 3 | Pending |
-| UX-03 | Phase 3 | Pending |
-| UX-05 | Phase 3 | Pending |
-| UX-06 | Phase 3 | Pending |
+| BRIEF-01 | Phase 3 | Complete |
+| BRIEF-02 | Phase 3 | Complete |
+| BRIEF-03 | Phase 3 | Complete |
+| BRIEF-04 | Phase 3 | Complete |
+| BRIEF-05 | Phase 3 | Complete |
+| BRIEF-06 | Phase 3 | Complete |
+| BRIEF-07 | Phase 3 | Complete |
+| BRIEF-08 | Phase 3 | Complete |
+| BRIEF-09 | Phase 3 | Complete |
+| BRIEF-10 | Phase 3 | Complete |
+| UX-03 | Phase 3 | Complete |
+| UX-05 | Phase 3 | Complete |
+| UX-06 | Phase 3 | Complete |
 | PLAN-01 | Phase 4 | Pending |
 | PLAN-02 | Phase 4 | Pending |
 | PLAN-03 | Phase 4 | Pending |

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to plan
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-03-24T15:30:33.020Z"
+stopped_at: "Checkpoint: 03-02 Task 2 human-verify"
+last_updated: "2026-03-24T16:39:08.266Z"
 progress:
   total_phases: 4
-  completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  completed_phases: 3
+  total_plans: 9
+  completed_plans: 9
 ---
 
 # Project State
@@ -19,11 +19,11 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Extract enough structural and visual detail from WeWeb's JSON/CSS data model that an AI agent can recreate the site with near pixel-perfect fidelity
-**Current focus:** Phase 02 — parsing-pipeline
+**Current focus:** Phase 03 — brief-generation-output
 
 ## Current Position
 
-Phase: 3
+Phase: 4
 Plan: Not started
 
 ## Performance Metrics
@@ -53,6 +53,8 @@ Plan: Not started
 | Phase 02-parsing-pipeline P04 | 1 | 1 tasks | 2 files |
 | Phase 02-parsing-pipeline P03 | 25 | 2 tasks | 4 files |
 | Phase 02-parsing-pipeline P05 | 3 | 2 tasks | 4 files |
+| Phase 03-brief-generation-output P01 | 231 | 2 tasks | 5 files |
+| Phase 03-brief-generation-output P02 | 108 | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -80,6 +82,11 @@ Recent decisions affecting current work:
 - [Phase 02-parsing-pipeline]: buildComponentTree prong 3 (libraryComponent roots) is caller responsibility at page level, not per-section, because library roots are page-wide
 - [Phase 02-05]: detectSharedSections threshold is pages.length * 0.5 (>= 50%) counting distinct pages not total instances
 - [Phase 02-05]: Library component roots walked at page level using a dummy section wrapper to reuse buildComponentTree without exposing walkObject
+- [Phase 03-brief-generation-output]: PreserveOption uses 'interactions' not 'animations' to match WeWeb workflow terminology
+- [Phase 03-brief-generation-output]: estimateTokens computed on final assembled markdown, not per-section (prevents undercount)
+- [Phase 03-brief-generation-output]: mkdir -p guard in saveBrief for first-run safety when .shipstudio/assets/ doesn't exist
+- [Phase 03-02]: Mode captured at startPickFlow call time (const currentMode = mode) to avoid stale async closure
+- [Phase 03-02]: result state removed from MainView — step.briefResult is the authoritative source for done-state display
 
 ### Pending Todos
 
@@ -92,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T15:25:41.303Z
-Stopped at: Completed 02-05-PLAN.md
+Last session: 2026-03-24T16:33:06.164Z
+Stopped at: Checkpoint: 03-02 Task 2 human-verify
 Resume file: None

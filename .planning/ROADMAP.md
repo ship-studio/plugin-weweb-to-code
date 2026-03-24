@@ -64,7 +64,7 @@ Plans:
   5. Brief is saved to .shipstudio/assets/brief.md so it persists across sessions
 **Plans**: 2 plans
 Plans:
-- [ ] 03-01-PLAN.md — Brief types, generateBrief() with all section builders, io.ts for save/clipboard, unit tests
+- [x] 03-01-PLAN.md — Brief types, generateBrief() with all section builders, io.ts for save/clipboard, unit tests
 - [ ] 03-02-PLAN.md — MainView mode selection UI, brief generation wiring, done-state results panel with copy/warning
 **UI hint**: yes
 
@@ -90,5 +90,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
 | 2. Parsing Pipeline | 5/5 | Complete   | 2026-03-24 |
-| 3. Brief Generation & Output | 0/2 | In progress | - |
+| 3. Brief Generation & Output | 1/2 | In Progress|  |
 | 4. Migration Plan & Resume UI | 0/TBD | Not started | - |
