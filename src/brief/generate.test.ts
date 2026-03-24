@@ -117,7 +117,7 @@ function makeMockInput(overrides?: Partial<BriefInput>): BriefInput {
   const siteAnalysis: SiteAnalysis = {
     siteName: 'Test Site',
     pages: [page1, page2, dynamicPage],
-    sharedSections: new Map([['base-nav-uid', 'Navigation']]),
+    sharedSections: new Map([['base-nav-uid', { title: 'Navigation', pageCount: 8, totalPages: 10, type: 'nav' as const }]]),
     allVariables: [],
     allCollections: [],
     totalComponentCount: 5,

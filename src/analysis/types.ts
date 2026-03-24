@@ -72,10 +72,17 @@ export interface ParsedPage {
   workflows: WorkflowSpec[]; // page-level (page.workflows) + linearized
 }
 
+export interface SharedSectionInfo {
+  title: string;
+  pageCount: number;  // number of distinct pages this section appears on
+  totalPages: number; // total pages in the site
+  type: 'nav' | 'header' | 'sidebar' | 'footer' | 'shared'; // inferred from title
+}
+
 export interface SiteAnalysis {
   siteName: string; // from manifest.json name/short_name
   pages: ParsedPage[];
-  sharedSections: Map<string, string>; // sectionBaseId -> title
+  sharedSections: Map<string, SharedSectionInfo>; // sectionBaseId -> info with frequency
   allVariables: VariableEntry[];
   allCollections: CollectionEntry[];
   totalComponentCount: number;

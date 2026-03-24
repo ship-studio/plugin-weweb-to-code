@@ -204,12 +204,13 @@ function buildSharedLayoutSection(sa: SiteAnalysis): string {
     '',
     'These sections appear on more than 50% of pages. Build them once as shared components.',
     '',
-    '| Section Base ID | Title |',
-    '|-----------------|-------|',
+    '| Type | Title | Confidence | Section Base ID |',
+    '|------|-------|------------|-----------------|',
   ];
 
-  for (const [baseId, title] of sa.sharedSections) {
-    lines.push(`| ${escapeTableCell(baseId)} | ${escapeTableCell(title)} |`);
+  for (const [baseId, info] of sa.sharedSections) {
+    const pct = Math.round((info.pageCount / info.totalPages) * 100);
+    lines.push(`| ${info.type} | ${escapeTableCell(info.title)} | ${pct}% (${info.pageCount}/${info.totalPages} pages) | ${escapeTableCell(baseId)} |`);
   }
 
   return lines.join('\n');

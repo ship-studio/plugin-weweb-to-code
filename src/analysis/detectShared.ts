@@ -1,4 +1,16 @@
-import type { ParsedPage } from './types';
+import type { ParsedPage, SharedSectionInfo } from './types';
+
+/**
+ * Infer section type from its title string.
+ */
+function inferSectionType(title: string): SharedSectionInfo['type'] {
+  const t = title.toLowerCase();
+  if (t.includes('nav') || t.includes('menu')) return 'nav';
+  if (t.includes('header')) return 'header';
+  if (t.includes('side')) return 'sidebar';
+  if (t.includes('footer')) return 'footer';
+  return 'shared';
+}
 
 /**
  * Detects shared layout sections by counting sectionBaseId occurrences across
@@ -11,9 +23,9 @@ import type { ParsedPage } from './types';
  * 4. Mutates section.isShared = true for all matching sections
  *
  * @param pages  All parsed pages for the site
- * @returns      Map<sectionBaseId, title> for shared sections
+ * @returns      Map<sectionBaseId, SharedSectionInfo> with frequency and type
  */
-export function detectSharedSections(pages: ParsedPage[]): Map<string, string> {
+export function detectSharedSections(pages: ParsedPage[]): Map<string, SharedSectionInfo> {
   if (pages.length === 0) return new Map();
 
   // Step 1: Map sectionBaseId -> Set of distinct pageIds
@@ -23,26 +35,29 @@ export function detectSharedSections(pages: ParsedPage[]): Map<string, string> {
   for (const page of pages) {
     for (const section of Object.values(page.sections)) {
       const bid = section.sectionBaseId;
-      // Skip falsy sectionBaseId (empty string, null, undefined)
       if (!bid) continue;
 
       if (!pageFreq.has(bid)) {
         pageFreq.set(bid, new Set());
       }
-      // Add page.id — NOT section.uid — so multiple sections on same page count once
       pageFreq.get(bid)!.add(page.id);
-      // Store title for the sectionBaseId (last write wins, titles should be consistent)
       baseTitles.set(bid, section.title ?? 'unnamed');
     }
   }
 
   // Step 2: Determine shared sections by threshold
   const threshold = pages.length * 0.5;
-  const shared = new Map<string, string>(); // sectionBaseId -> title
+  const shared = new Map<string, SharedSectionInfo>();
 
   for (const [bid, pageIds] of pageFreq) {
     if (pageIds.size >= threshold) {
-      shared.set(bid, baseTitles.get(bid)!);
+      const title = baseTitles.get(bid)!;
+      shared.set(bid, {
+        title,
+        pageCount: pageIds.size,
+        totalPages: pages.length,
+        type: inferSectionType(title),
+      });
     }
   }
 

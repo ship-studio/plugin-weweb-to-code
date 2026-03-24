@@ -48,7 +48,11 @@ describe('detectSharedSections', () => {
     const shared = detectSharedSections(pages);
 
     expect(shared.has('header-base')).toBe(true);
-    expect(shared.get('header-base')).toBe('Header');
+    const info = shared.get('header-base')!;
+    expect(info.title).toBe('Header');
+    expect(info.pageCount).toBe(3);
+    expect(info.totalPages).toBe(4);
+    expect(info.type).toBe('header');
   });
 
   // Test 2: Section appearing on 1 of 4 pages is NOT shared (25% < 50%)
