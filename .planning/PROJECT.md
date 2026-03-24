@@ -12,13 +12,11 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Plugin loads in Ship Studio toolbar with WeWeb icon and opens modal on click — Phase 1
+- ✓ User can select a WeWeb export ZIP via native file picker — Phase 1
+- ✓ Plugin extracts ZIP, validates WeWeb export structure (JSON data files, assets, HTML shell) — Phase 1
 
 ### Active
-
-- [ ] Plugin loads in Ship Studio toolbar with WeWeb icon and opens modal on click
-- [ ] User can select a WeWeb export ZIP via native file picker
-- [ ] Plugin extracts ZIP, validates WeWeb export structure (JSON data files, assets, HTML shell)
 - [ ] Plugin copies assets (images, icons, fonts, CSS/JS bundles) to .shipstudio/assets/
 - [ ] Plugin parses JSON data files (/data/*.json) to extract page structure, sections, and component trees (wwObjects)
 - [ ] Plugin extracts design system from inline CSS variables (typography scales, color palette, spacing tokens) into usable token sets
@@ -87,4 +85,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after initialization*
+*Last updated: 2026-03-24 after Phase 1 completion*
