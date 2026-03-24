@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePluginContext } from '../context';
 import type { ZipStep } from '../zip/types';
 import { pickZipFile, buildExtractDir, extractAndVerify } from '../zip/extract';
@@ -8,6 +8,11 @@ import type { BriefMode, PreserveOption } from '../brief/types';
 import { PRESERVE_OPTIONS, DEFAULT_PRESERVE, TOKEN_WARNING_THRESHOLD } from '../brief/types';
 import { generateBrief } from '../brief/generate';
 import { saveBrief, copyToClipboard } from '../brief/io';
+import { generateMigrationPlan } from '../plan/generate';
+import { saveMigrationPlan } from '../plan/io';
+import { loadMigrationPlan } from '../plan/read';
+import type { MigrationPlan } from '../plan/types';
+import { MigrationProgress } from '../components/MigrationProgress';
 
 function PreserveCheckbox({ label, checked, onToggle }: { label: string; checked: boolean; onToggle: () => void }) {
   return (
@@ -31,12 +36,26 @@ export function MainView() {
   const [preserve, setPreserve] = useState<Set<PreserveOption>>(new Set(DEFAULT_PRESERVE));
   const [customNotes, setCustomNotes] = useState('');
   const [copying, setCopying] = useState(false);
+  const [existingPlan, setExistingPlan] = useState<MigrationPlan | null | 'checking'>('checking');
 
   const ctx = usePluginContext();
+
+  useEffect(() => {
+    if (!ctx) return;
+    loadMigrationPlan(ctx.shell, ctx.project.path).then((plan) => {
+      setExistingPlan(plan);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!ctx) {
     return <div className="ww2c-progress">Plugin context not available</div>;
   }
+
+  const handleStartFresh = () => {
+    setExistingPlan(null);
+    setStep({ kind: 'idle' });
+  };
 
   const startPickFlow = async () => {
     // Capture mode/preserve/customNotes at call time to avoid stale closure
@@ -85,6 +104,9 @@ export function MainView() {
 
       await saveBrief(ctx.shell, ctx.project.path, briefResult.markdown);
 
+      const plan = generateMigrationPlan(analysisResult.siteAnalysis);
+      await saveMigrationPlan(ctx.shell, ctx.project.path, plan);
+
       setStep({ kind: 'done', zipPath, extractDir, fileCount: manifest.fileCount, briefResult });
     } catch (err) {
       setStep({ kind: 'error', message: err instanceof Error ? err.message : String(err) });
@@ -102,6 +124,20 @@ export function MainView() {
       startPickFlow();
     }
   };
+
+  if (existingPlan === 'checking') {
+    return <div className="ww2c-progress">Checking for existing migration...</div>;
+  }
+
+  if (existingPlan !== null && step.kind === 'idle') {
+    return (
+      <MigrationProgress
+        shell={ctx.shell}
+        projectPath={ctx.project.path}
+        onStartFresh={handleStartFresh}
+      />
+    );
+  }
 
   if (showConfirm) {
     return (
@@ -225,6 +261,10 @@ export function MainView() {
           <div className="ww2c-results-output">
             <div className="ww2c-results-output-label">Saved to:</div>
             <div className="ww2c-results-path">.shipstudio/assets/brief.md</div>
+          </div>
+
+          <div className="ww2c-results-output">
+            <div className="ww2c-results-path">Migration plan saved to .shipstudio/migration-plan.json</div>
           </div>
 
           <button

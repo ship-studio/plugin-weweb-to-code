@@ -268,4 +268,19 @@ export const PLUGIN_CSS = `
   border-radius: 0 4px 4px 0;
 }
 
+.ww2c-progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.ww2c-progress-fill {
+  height: 100%;
+  background: #4caf50;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
 `;
