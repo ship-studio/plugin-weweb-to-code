@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to plan
-stopped_at: "Checkpoint: 03-02 Task 2 human-verify"
-last_updated: "2026-03-24T16:39:08.266Z"
+status: Ready to execute
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-24T18:45:12.277Z"
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 11
+  completed_plans: 10
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Extract enough structural and visual detail from WeWeb's JSON/CSS data model that an AI agent can recreate the site with near pixel-perfect fidelity
-**Current focus:** Phase 03 — brief-generation-output
+**Current focus:** Phase 04 — migration-plan-resume-ui
 
 ## Current Position
 
-Phase: 4
-Plan: Not started
+Phase: 04 (migration-plan-resume-ui) — EXECUTING
+Plan: 2 of 2
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Plan: Not started
 | Phase 02-parsing-pipeline P05 | 3 | 2 tasks | 4 files |
 | Phase 03-brief-generation-output P01 | 231 | 2 tasks | 5 files |
 | Phase 03-brief-generation-output P02 | 108 | 1 tasks | 2 files |
+| Phase 04-migration-plan-resume-ui P01 | 977 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,8 @@ Recent decisions affecting current work:
 - [Phase 03-brief-generation-output]: mkdir -p guard in saveBrief for first-run safety when .shipstudio/assets/ doesn't exist
 - [Phase 03-02]: Mode captured at startPickFlow call time (const currentMode = mode) to avoid stale async closure
 - [Phase 03-02]: result state removed from MainView — step.briefResult is the authoritative source for done-state display
+- [Phase 04-migration-plan-resume-ui]: Sort order for shared sections: nav=0, header=1, sidebar=2, shared=3, footer=4 — deterministic ordering using SHARED_TYPE_ORDER map
+- [Phase 04-migration-plan-resume-ui]: buildResumePrompt embeds projectPath in both file paths (plan + brief) — WeWeb version differs from webflow-to-code which used relative paths
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T16:33:06.164Z
-Stopped at: Checkpoint: 03-02 Task 2 human-verify
+Last session: 2026-03-24T18:45:12.275Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None

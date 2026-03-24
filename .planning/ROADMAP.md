@@ -80,7 +80,7 @@ Plans:
   5. User can start a fresh migration, overwriting the existing plan
 **Plans**: 2 plans
 Plans:
-- [ ] 04-01-PLAN.md — Plan module: types, generateMigrationPlan from SiteAnalysis, I/O (save/load), progress computation, resume prompt
+- [x] 04-01-PLAN.md — Plan module: types, generateMigrationPlan from SiteAnalysis, I/O (save/load), progress computation, resume prompt
 - [ ] 04-02-PLAN.md — MigrationProgress component, MainView integration (plan detection on mount, plan generation after brief, progress UI)
 **UI hint**: yes
 
@@ -94,4 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
 | 2. Parsing Pipeline | 5/5 | Complete   | 2026-03-24 |
 | 3. Brief Generation & Output | 1/2 | In Progress|  |
-| 4. Migration Plan & Resume UI | 0/2 | Not started | - |
+| 4. Migration Plan & Resume UI | 1/2 | In Progress|  |
