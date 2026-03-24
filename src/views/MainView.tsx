@@ -3,10 +3,21 @@ import { usePluginContext } from '../context';
 import type { ZipStep } from '../zip/types';
 import { pickZipFile, buildExtractDir, extractAndVerify } from '../zip/extract';
 import { validateWeWebExport } from '../zip/discover';
+import { analyzeSite } from '../analysis/analyze';
+import type { SiteAnalysis } from '../analysis/types';
+import type { DesignSystem } from '../design/types';
+import type { AssetManifest } from '../assets/types';
+
+type AnalysisResult = {
+  siteAnalysis: SiteAnalysis;
+  designSystem: DesignSystem;
+  assetManifest: AssetManifest;
+};
 
 export function MainView() {
   const [step, setStep] = useState<ZipStep>({ kind: 'idle' });
   const [showConfirm, setShowConfirm] = useState(false);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
 
   const ctx = usePluginContext();
 
@@ -16,6 +27,7 @@ export function MainView() {
 
   const startPickFlow = async () => {
     try {
+      setResult(null);
       setStep({ kind: 'picking' });
       const zipPath = await pickZipFile(ctx.shell);
       if (!zipPath) {
@@ -33,6 +45,17 @@ export function MainView() {
       setStep({ kind: 'validating' });
       await validateWeWebExport(ctx.shell, extractDir, manifest.entries);
 
+      // Full analysis pipeline: design tokens -> page parsing -> tree walking ->
+      // workflow parsing -> shared detection -> asset copy
+      const analysisResult = await analyzeSite(
+        ctx.shell,
+        extractDir,
+        manifest.entries,
+        ctx.project.path,
+        setStep,
+      );
+
+      setResult(analysisResult);
       setStep({ kind: 'done', zipPath, extractDir, fileCount: manifest.fileCount });
     } catch (err) {
       setStep({ kind: 'error', message: err instanceof Error ? err.message : String(err) });
@@ -112,14 +135,17 @@ export function MainView() {
         <div className="ww2c-progress">Generating brief...</div>
       )}
 
-      {step.kind === 'done' && (
+      {step.kind === 'done' && result && (
         <>
           <div className="ww2c-progress ww2c-progress-done">
-            WeWeb export imported successfully ({step.fileCount} files)
+            Analysis complete: {result.siteAnalysis.pages.length} pages,{' '}
+            {result.siteAnalysis.totalComponentCount} components,{' '}
+            {result.designSystem.fonts.length + result.designSystem.colors.length + result.designSystem.dimensions.length} design tokens,{' '}
+            {result.assetManifest.totalCopied} assets copied
           </div>
           <button
             className="ww2c-btn-ghost"
-            onClick={() => setStep({ kind: 'idle' })}
+            onClick={() => { setStep({ kind: 'idle' }); setResult(null); }}
             style={{ marginTop: '8px' }}
           >
             Select Another
