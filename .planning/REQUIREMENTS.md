@@ -9,9 +9,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### ZIP & Validation
 
-- [ ] **ZIP-01**: User can select a WeWeb export ZIP via native OS file picker
-- [ ] **ZIP-02**: Plugin validates WeWeb export structure (data/*.json, manifest.json, HTML shell with `<div id="app">`)
-- [ ] **ZIP-03**: Plugin shows clear error message when ZIP is not a valid WeWeb export
+- [x] **ZIP-01**: User can select a WeWeb export ZIP via native OS file picker
+- [x] **ZIP-02**: Plugin validates WeWeb export structure (data/*.json, manifest.json, HTML shell with `<div id="app">`)
+- [x] **ZIP-03**: Plugin shows clear error message when ZIP is not a valid WeWeb export
 
 ### Asset Management
 
@@ -71,8 +71,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Output & UX
 
-- [ ] **UX-01**: Plugin loads in Ship Studio toolbar with WeWeb icon
-- [ ] **UX-02**: Plugin opens modal on toolbar button click
+- [x] **UX-01**: Plugin loads in Ship Studio toolbar with WeWeb icon
+- [x] **UX-02**: Plugin opens modal on toolbar button click
 - [ ] **UX-03**: User can choose between pixel-perfect and best-site mode (with preserve options)
 - [ ] **UX-04**: Plugin shows step-by-step progress during extraction and analysis
 - [ ] **UX-05**: User can copy brief to clipboard
@@ -111,11 +111,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ZIP-01 | Phase 1 | Pending |
-| ZIP-02 | Phase 1 | Pending |
-| ZIP-03 | Phase 1 | Pending |
-| UX-01 | Phase 1 | Pending |
-| UX-02 | Phase 1 | Pending |
+| ZIP-01 | Phase 1 | Complete |
+| ZIP-02 | Phase 1 | Complete |
+| ZIP-03 | Phase 1 | Complete |
+| UX-01 | Phase 1 | Complete |
+| UX-02 | Phase 1 | Complete |
 | DESIGN-01 | Phase 2 | Pending |
 | DESIGN-02 | Phase 2 | Pending |
 | DESIGN-03 | Phase 2 | Pending |

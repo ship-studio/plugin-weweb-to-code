@@ -12,7 +12,7 @@ Four phases deliver a complete Ship Studio plugin: the toolbar shell and ZIP ing
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Plugin Shell & ZIP Ingestion** - Ship Studio toolbar integration, file picker, ZIP extraction, and WeWeb export validation
+- [x] **Phase 1: Plugin Shell & ZIP Ingestion** - Ship Studio toolbar integration, file picker, ZIP extraction, and WeWeb export validation (completed 2026-03-24)
 - [ ] **Phase 2: Parsing Pipeline** - Design token extraction, component tree analysis, interactions/state, and asset copying
 - [ ] **Phase 3: Brief Generation & Output** - Markdown brief assembly, mode selection, clipboard copy, and file save
 - [ ] **Phase 4: Migration Plan & Resume UI** - Hierarchical migration plan JSON, progress tracking, and multi-session resume
@@ -30,8 +30,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Plugin shows a clear, actionable error message when the selected ZIP is not a valid WeWeb export
 **Plans**: 2 plans
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffold, core types, ZIP extraction pipeline, WeWeb validation with tests
-- [ ] 01-02-PLAN.md — Plugin UI shell (Modal, toolbar entry point, MainView with ZIP flow wiring)
+- [x] 01-01-PLAN.md — Project scaffold, core types, ZIP extraction pipeline, WeWeb validation with tests
+- [x] 01-02-PLAN.md — Plugin UI shell (Modal, toolbar entry point, MainView with ZIP flow wiring)
 **UI hint**: yes
 
 ### Phase 2: Parsing Pipeline
@@ -79,7 +79,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Plugin Shell & ZIP Ingestion | 0/2 | Planning complete | - |
+| 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
 | 2. Parsing Pipeline | 0/TBD | Not started | - |
 | 3. Brief Generation & Output | 0/TBD | Not started | - |
 | 4. Migration Plan & Resume UI | 0/TBD | Not started | - |
