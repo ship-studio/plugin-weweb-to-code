@@ -28,7 +28,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can open a native OS file picker and select a ZIP file from disk
   3. Plugin correctly identifies a valid WeWeb export (data/*.json + manifest.json + HTML shell with div#app)
   4. Plugin shows a clear, actionable error message when the selected ZIP is not a valid WeWeb export
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Project scaffold, core types, ZIP extraction pipeline, WeWeb validation with tests
+- [ ] 01-02-PLAN.md — Plugin UI shell (Modal, toolbar entry point, MainView with ZIP flow wiring)
 **UI hint**: yes
 
 ### Phase 2: Parsing Pipeline
@@ -76,7 +79,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Plugin Shell & ZIP Ingestion | 0/TBD | Not started | - |
+| 1. Plugin Shell & ZIP Ingestion | 0/2 | Planning complete | - |
 | 2. Parsing Pipeline | 0/TBD | Not started | - |
 | 3. Brief Generation & Output | 0/TBD | Not started | - |
 | 4. Migration Plan & Resume UI | 0/TBD | Not started | - |
