@@ -44,7 +44,13 @@ Plans:
   3. Shared layout sections (nav, sidebar, footer) are identified by sectionBaseId frequency and separated from per-page content
   4. Design system is extracted as classified, deduplicated token sets: font composites sorted by size (H1-H6 inference), hex colors, dimension tokens, and Google Font URLs
   5. Images and icons are copied to .shipstudio/assets/ and an asset manifest with file counts and project-relative paths is written
-**Plans**: TBD
+**Plans**: 5 plans
+Plans:
+- [ ] 02-01-PLAN.md — Phase 2 type contracts + design token extraction (CSS classification, font ranking, color dedup, Google Fonts)
+- [ ] 02-02-PLAN.md — Asset enumeration and copying (images/, icons/ to .shipstudio/assets/, manifest builder)
+- [ ] 02-03-PLAN.md — Page discovery + 3-pronged recursive tree walker (component types, dynamic bindings, breakpoints)
+- [ ] 02-04-PLAN.md — Workflow/interaction parsing (chain linearization, variable/collection inventory)
+- [ ] 02-05-PLAN.md — Shared layout detection + analysis orchestrator + MainView integration
 
 ### Phase 3: Brief Generation & Output
 **Goal**: Users receive a complete, structured Markdown brief they can copy to an AI agent to begin reconstruction
@@ -80,6 +86,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
-| 2. Parsing Pipeline | 0/TBD | Not started | - |
+| 2. Parsing Pipeline | 0/5 | Not started | - |
 | 3. Brief Generation & Output | 0/TBD | Not started | - |
 | 4. Migration Plan & Resume UI | 0/TBD | Not started | - |
