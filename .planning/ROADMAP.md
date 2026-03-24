@@ -78,7 +78,10 @@ Plans:
   3. Progress view displays the migration tree with status symbols, updated by polling migration-plan.json
   4. User can copy a resume prompt to continue the migration in a new AI session
   5. User can start a fresh migration, overwriting the existing plan
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 04-01-PLAN.md — Plan module: types, generateMigrationPlan from SiteAnalysis, I/O (save/load), progress computation, resume prompt
+- [ ] 04-02-PLAN.md — MigrationProgress component, MainView integration (plan detection on mount, plan generation after brief, progress UI)
 **UI hint**: yes
 
 ## Progress
@@ -91,4 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Plugin Shell & ZIP Ingestion | 2/2 | Complete   | 2026-03-24 |
 | 2. Parsing Pipeline | 5/5 | Complete   | 2026-03-24 |
 | 3. Brief Generation & Output | 1/2 | In Progress|  |
-| 4. Migration Plan & Resume UI | 0/TBD | Not started | - |
+| 4. Migration Plan & Resume UI | 0/2 | Not started | - |
