@@ -4,20 +4,33 @@ import type { ZipStep } from '../zip/types';
 import { pickZipFile, buildExtractDir, extractAndVerify } from '../zip/extract';
 import { validateWeWebExport } from '../zip/discover';
 import { analyzeSite } from '../analysis/analyze';
-import type { SiteAnalysis } from '../analysis/types';
-import type { DesignSystem } from '../design/types';
-import type { AssetManifest } from '../assets/types';
+import type { BriefMode, PreserveOption } from '../brief/types';
+import { PRESERVE_OPTIONS, DEFAULT_PRESERVE, TOKEN_WARNING_THRESHOLD } from '../brief/types';
+import { generateBrief } from '../brief/generate';
+import { saveBrief, copyToClipboard } from '../brief/io';
 
-type AnalysisResult = {
-  siteAnalysis: SiteAnalysis;
-  designSystem: DesignSystem;
-  assetManifest: AssetManifest;
-};
+function PreserveCheckbox({ label, checked, onToggle }: { label: string; checked: boolean; onToggle: () => void }) {
+  return (
+    <div className="ww2c-check-item" onClick={onToggle}>
+      <div className={`ww2c-checkbox${checked ? ' checked' : ''}`}>
+        {checked && (
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M2 5.5L4 7.5L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+      </div>
+      <span>{label}</span>
+    </div>
+  );
+}
 
 export function MainView() {
   const [step, setStep] = useState<ZipStep>({ kind: 'idle' });
   const [showConfirm, setShowConfirm] = useState(false);
-  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [mode, setMode] = useState<BriefMode>('pixel-perfect');
+  const [preserve, setPreserve] = useState<Set<PreserveOption>>(new Set(DEFAULT_PRESERVE));
+  const [customNotes, setCustomNotes] = useState('');
+  const [copying, setCopying] = useState(false);
 
   const ctx = usePluginContext();
 
@@ -26,8 +39,12 @@ export function MainView() {
   }
 
   const startPickFlow = async () => {
+    // Capture mode/preserve/customNotes at call time to avoid stale closure
+    const currentMode = mode;
+    const currentPreserve = preserve;
+    const currentCustomNotes = customNotes;
+
     try {
-      setResult(null);
       setStep({ kind: 'picking' });
       const zipPath = await pickZipFile(ctx.shell);
       if (!zipPath) {
@@ -55,8 +72,20 @@ export function MainView() {
         setStep,
       );
 
-      setResult(analysisResult);
-      setStep({ kind: 'done', zipPath, extractDir, fileCount: manifest.fileCount });
+      setStep({ kind: 'generating' });
+      const briefResult = generateBrief({
+        mode: currentMode,
+        siteAnalysis: analysisResult.siteAnalysis,
+        designSystem: analysisResult.designSystem,
+        assetManifest: analysisResult.assetManifest,
+        projectPath: ctx.project.path,
+        preserve: currentMode === 'best-site' ? currentPreserve : undefined,
+        customNotes: currentMode === 'best-site' ? currentCustomNotes : undefined,
+      });
+
+      await saveBrief(ctx.shell, ctx.project.path, briefResult.markdown);
+
+      setStep({ kind: 'done', zipPath, extractDir, fileCount: manifest.fileCount, briefResult });
     } catch (err) {
       setStep({ kind: 'error', message: err instanceof Error ? err.message : String(err) });
     }
@@ -102,13 +131,55 @@ export function MainView() {
   return (
     <div>
       {step.kind === 'idle' && (
-        <button
-          className="ww2c-btn-ghost"
-          onClick={checkAndPick}
-          style={{ width: '100%' }}
-        >
-          Select WeWeb Export ZIP
-        </button>
+        <>
+          <div className="ww2c-mode-group">
+            <div
+              className={`ww2c-mode-card${mode === 'pixel-perfect' ? ' selected' : ''}`}
+              onClick={() => setMode('pixel-perfect')}
+            >
+              <div className="ww2c-mode-card-name">Pixel Perfect</div>
+              <div className="ww2c-mode-card-desc">Exact recreation of the original design</div>
+            </div>
+            <div
+              className={`ww2c-mode-card${mode === 'best-site' ? ' selected' : ''}`}
+              onClick={() => setMode('best-site')}
+            >
+              <div className="ww2c-mode-card-name">Best Site</div>
+              <div className="ww2c-mode-card-desc">Modernized with best practices</div>
+            </div>
+          </div>
+
+          {mode === 'best-site' && (
+            <div className="ww2c-preserve-section">
+              <div className="ww2c-checklist">
+                {PRESERVE_OPTIONS.map((opt) => (
+                  <PreserveCheckbox
+                    key={opt.key}
+                    label={opt.label}
+                    checked={preserve.has(opt.key)}
+                    onToggle={() => {
+                      const next = new Set(preserve);
+                      if (next.has(opt.key)) next.delete(opt.key);
+                      else next.add(opt.key);
+                      setPreserve(next);
+                    }}
+                  />
+                ))}
+              </div>
+              <textarea
+                className="ww2c-custom-notes"
+                placeholder="Additional notes for the AI..."
+                value={customNotes}
+                onChange={(e) => setCustomNotes(e.target.value)}
+                rows={3}
+              />
+            </div>
+          )}
+
+          <button className="ww2c-btn-ghost" onClick={checkAndPick} style={{ width: '100%' }}>
+            Select WeWeb Export ZIP
+          </button>
+        </>
       )}
 
       {step.kind === 'picking' && (
@@ -135,22 +206,52 @@ export function MainView() {
         <div className="ww2c-progress">Generating brief...</div>
       )}
 
-      {step.kind === 'done' && result && (
-        <>
-          <div className="ww2c-progress ww2c-progress-done">
-            Analysis complete: {result.siteAnalysis.pages.length} pages,{' '}
-            {result.siteAnalysis.totalComponentCount} components,{' '}
-            {result.designSystem.fonts.length + result.designSystem.colors.length + result.designSystem.dimensions.length} design tokens,{' '}
-            {result.assetManifest.totalCopied} assets copied
+      {step.kind === 'done' && (
+        <div className="ww2c-results">
+          <div className="ww2c-results-header">Brief Generated</div>
+          <div className="ww2c-results-stats">
+            {step.briefResult.stats.pageCount} pages |{' '}
+            {step.briefResult.stats.totalComponentCount} components |{' '}
+            {step.briefResult.stats.assetCount} assets |{' '}
+            ~{Math.round(step.briefResult.estimatedTokens / 1000)}K tokens
           </div>
+
+          {step.briefResult.estimatedTokens > TOKEN_WARNING_THRESHOLD && (
+            <div className="ww2c-results-tip">
+              Brief is ~{Math.round(step.briefResult.estimatedTokens / 1000)}K tokens — consider building page by page using the migration plan file.
+            </div>
+          )}
+
+          <div className="ww2c-results-output">
+            <div className="ww2c-results-output-label">Saved to:</div>
+            <div className="ww2c-results-path">.shipstudio/assets/brief.md</div>
+          </div>
+
           <button
             className="ww2c-btn-ghost"
-            onClick={() => { setStep({ kind: 'idle' }); setResult(null); }}
-            style={{ marginTop: '8px' }}
+            onClick={async () => {
+              setCopying(true);
+              try {
+                await copyToClipboard(ctx.shell, step.briefResult.markdown);
+              } catch {
+                // Silently fail — clipboard is best-effort
+              }
+              setCopying(false);
+            }}
+            style={{ width: '100%', marginTop: '8px' }}
+            disabled={copying}
+          >
+            {copying ? 'Copying...' : 'Copy Brief to Clipboard'}
+          </button>
+
+          <button
+            className="ww2c-btn-ghost"
+            onClick={() => { setStep({ kind: 'idle' }); }}
+            style={{ width: '100%', marginTop: '4px' }}
           >
             Select Another
           </button>
-        </>
+        </div>
       )}
 
       {step.kind === 'error' && (

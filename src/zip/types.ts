@@ -1,3 +1,5 @@
+import type { BriefResult } from '../brief/types';
+
 export type ZipStep =
   | { kind: 'idle' }
   | { kind: 'picking' }
@@ -6,7 +8,7 @@ export type ZipStep =
   | { kind: 'copying'; label: string }
   | { kind: 'analyzing'; pageCount: number }
   | { kind: 'generating' }
-  | { kind: 'done'; zipPath: string; extractDir: string; fileCount: number }
+  | { kind: 'done'; zipPath: string; extractDir: string; fileCount: number; briefResult: BriefResult }
   | { kind: 'error'; message: string };
 
 export interface ZipManifest {
