@@ -65,9 +65,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Migration Plan
 
-- [ ] **PLAN-01**: Plugin generates hierarchical migration plan JSON (shared layout → pages → sections)
-- [ ] **PLAN-02**: Each plan item has name, type, status (pending/in-progress/complete)
-- [ ] **PLAN-03**: Plugin saves migration plan to .shipstudio/migration-plan.json
+- [x] **PLAN-01**: Plugin generates hierarchical migration plan JSON (shared layout → pages → sections)
+- [x] **PLAN-02**: Each plan item has name, type, status (pending/in-progress/complete)
+- [x] **PLAN-03**: Plugin saves migration plan to .shipstudio/migration-plan.json
 
 ### Output & UX
 
@@ -155,9 +155,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-03 | Phase 3 | Complete |
 | UX-05 | Phase 3 | Complete |
 | UX-06 | Phase 3 | Complete |
-| PLAN-01 | Phase 4 | Pending |
-| PLAN-02 | Phase 4 | Pending |
-| PLAN-03 | Phase 4 | Pending |
+| PLAN-01 | Phase 4 | Complete |
+| PLAN-02 | Phase 4 | Complete |
+| PLAN-03 | Phase 4 | Complete |
 | UX-07 | Phase 4 | Pending |
 | UX-08 | Phase 4 | Pending |
 | UX-09 | Phase 4 | Pending |

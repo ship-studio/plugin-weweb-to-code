@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ready to execute
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-24T18:45:12.277Z"
+status: Milestone complete
+stopped_at: "Checkpoint in 04-02-PLAN.md (Task 2: human-verify)"
+last_updated: "2026-03-24T19:59:27.617Z"
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 11
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
@@ -23,8 +23,8 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 
 ## Current Position
 
-Phase: 04 (migration-plan-resume-ui) — EXECUTING
-Plan: 2 of 2
+Phase: 04
+Plan: Not started
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Plan: 2 of 2
 | Phase 03-brief-generation-output P01 | 231 | 2 tasks | 5 files |
 | Phase 03-brief-generation-output P02 | 108 | 1 tasks | 2 files |
 | Phase 04-migration-plan-resume-ui P01 | 977 | 2 tasks | 9 files |
+| Phase 04-migration-plan-resume-ui P02 | 18 | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,7 @@ Recent decisions affecting current work:
 - [Phase 03-02]: result state removed from MainView — step.briefResult is the authoritative source for done-state display
 - [Phase 04-migration-plan-resume-ui]: Sort order for shared sections: nav=0, header=1, sidebar=2, shared=3, footer=4 — deterministic ordering using SHARED_TYPE_ORDER map
 - [Phase 04-migration-plan-resume-ui]: buildResumePrompt embeds projectPath in both file paths (plan + brief) — WeWeb version differs from webflow-to-code which used relative paths
+- [Phase 04-migration-plan-resume-ui]: onStartFresh callback added to MigrationProgress props (WeWeb addition) — per UX-10 for start-fresh flow from progress view
 
 ### Pending Todos
 
@@ -102,6 +104,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T18:45:12.275Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-03-24T19:37:52.567Z
+Stopped at: Checkpoint in 04-02-PLAN.md (Task 2: human-verify)
 Resume file: None
