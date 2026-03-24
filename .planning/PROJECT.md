@@ -16,14 +16,15 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 - ✓ User can select a WeWeb export ZIP via native file picker — Phase 1
 - ✓ Plugin extracts ZIP, validates WeWeb export structure (JSON data files, assets, HTML shell) — Phase 1
 
+- ✓ Plugin copies assets (images, icons, fonts, CSS/JS bundles) to .shipstudio/assets/ — Phase 2
+- ✓ Plugin parses JSON data files (/data/*.json) to extract page structure, sections, and component trees (wwObjects) — Phase 2
+- ✓ Plugin extracts design system from inline CSS variables (typography scales, color palette, spacing tokens) into usable token sets — Phase 2
+- ✓ Plugin detects shared layout elements (nav, footer, sidebar) across page JSON definitions — Phase 2
+- ✓ Plugin captures WeWeb workflows (triggers + action chains) as interaction specs in the brief — Phase 2
+- ✓ Plugin extracts responsive breakpoint values (mobile/tablet/default) from component state objects — Phase 2
+- ✓ Plugin maps WeWeb component types to migration guidance (what each component does, how to rebuild it) — Phase 2
+
 ### Active
-- [ ] Plugin copies assets (images, icons, fonts, CSS/JS bundles) to .shipstudio/assets/
-- [ ] Plugin parses JSON data files (/data/*.json) to extract page structure, sections, and component trees (wwObjects)
-- [ ] Plugin extracts design system from inline CSS variables (typography scales, color palette, spacing tokens) into usable token sets
-- [ ] Plugin detects shared layout elements (nav, footer, sidebar) across page JSON definitions
-- [ ] Plugin captures WeWeb workflows (triggers + action chains) as interaction specs in the brief
-- [ ] Plugin extracts responsive breakpoint values (mobile/tablet/default) from component state objects
-- [ ] Plugin maps WeWeb component types to migration guidance (what each component does, how to rebuild it)
 - [ ] Plugin generates markdown brief with site overview, design system, page structure, components, workflows, and assets
 - [ ] Plugin generates hierarchical migration plan (JSON) tracking shared layout → pages → sections
 - [ ] User can choose between pixel-perfect mode and best-site mode (with preserve options)
@@ -85,4 +86,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after Phase 1 completion*
+*Last updated: 2026-03-24 after Phase 2 completion*
