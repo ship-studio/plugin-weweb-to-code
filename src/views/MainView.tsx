@@ -148,6 +148,7 @@ export function MainView() {
           <button
             className="ww2c-btn-ghost"
             onClick={() => setShowConfirm(false)}
+            style={{ flex: 1 }}
           >
             Cancel
           </button>
@@ -157,6 +158,7 @@ export function MainView() {
               setShowConfirm(false);
               startPickFlow();
             }}
+            style={{ flex: 1 }}
           >
             Start Fresh
           </button>
