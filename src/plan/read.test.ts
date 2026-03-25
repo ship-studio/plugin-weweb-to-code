@@ -10,7 +10,11 @@ function encodePlan(plan: unknown): string {
 
 function makeShell(exitCode: number, stdout: string, stderr = '') {
   return {
-    exec: vi.fn().mockResolvedValue({ exit_code: exitCode, stdout, stderr }),
+    exec: vi.fn()
+      // First call: test -f (file exists check)
+      .mockResolvedValueOnce({ exit_code: exitCode, stdout: exitCode === 0 ? 'exists\n' : '', stderr: '' })
+      // Second call: cat | base64
+      .mockResolvedValueOnce({ exit_code: exitCode, stdout, stderr }),
   };
 }
 
@@ -52,11 +56,16 @@ describe('loadMigrationPlan', () => {
     expect(result).toBeNull();
   });
 
-  it('calls shell with correct cat | base64 command and path', async () => {
+  it('calls shell with test -f then cat | base64 commands', async () => {
     const encoded = encodePlan(samplePlan);
     const shell = makeShell(0, encoded);
     await loadMigrationPlan(shell, '/project');
-    expect(shell.exec).toHaveBeenCalledWith(
+    expect(shell.exec).toHaveBeenCalledTimes(2);
+    expect(shell.exec).toHaveBeenNthCalledWith(1,
+      'bash',
+      ['-c', "test -f '/project/.shipstudio/migration-plan.json' && echo exists"],
+    );
+    expect(shell.exec).toHaveBeenNthCalledWith(2,
       'bash',
       ['-c', "cat '/project/.shipstudio/migration-plan.json' | base64"],
     );

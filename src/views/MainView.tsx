@@ -36,6 +36,7 @@ export function MainView() {
   const [preserve, setPreserve] = useState<Set<PreserveOption>>(new Set(DEFAULT_PRESERVE));
   const [customNotes, setCustomNotes] = useState('');
   const [copying, setCopying] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [existingPlan, setExistingPlan] = useState<MigrationPlan | null | 'checking'>('checking');
 
   const ctx = usePluginContext();
@@ -273,6 +274,8 @@ export function MainView() {
               setCopying(true);
               try {
                 await copyToClipboard(ctx.shell, step.briefResult.markdown);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
               } catch {
                 // Silently fail — clipboard is best-effort
               }
@@ -281,7 +284,7 @@ export function MainView() {
             style={{ width: '100%', marginTop: '8px' }}
             disabled={copying}
           >
-            {copying ? 'Copying...' : 'Copy Brief to Clipboard'}
+            {copied ? 'Copied!' : copying ? 'Copying...' : 'Copy Brief to Clipboard'}
           </button>
 
           <button

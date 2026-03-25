@@ -9,6 +9,9 @@ export async function loadMigrationPlan(
   projectPath: string,
 ): Promise<MigrationPlan | null> {
   const planPath = `${projectPath}/.shipstudio/migration-plan.json`;
+  // Check file exists first — cat piped to base64 can mask cat failures
+  const check = await shell.exec('bash', ['-c', `test -f '${planPath}' && echo exists`]);
+  if (check.exit_code !== 0 || !check.stdout.includes('exists')) return null;
   const result = await shell.exec('bash', ['-c', `cat '${planPath}' | base64`]);
   if (result.exit_code !== 0) return null;
   try {
