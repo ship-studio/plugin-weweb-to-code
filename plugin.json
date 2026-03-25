@@ -1,13 +1,13 @@
 {
   "id": "weweb-to-code",
   "name": "WeWeb to Code",
-  "version": "0.1.0",
-  "description": "Convert WeWeb exports into structured coding briefs",
+  "version": "1.0.0",
+  "description": "Convert WeWeb exports into structured coding briefs for AI-assisted development",
   "slots": ["toolbar"],
-  "author": "",
-  "repository": "",
+  "author": "Ship Studio",
+  "repository": "https://github.com/ship-studio/plugin-weweb-to-code",
   "min_app_version": "0.3.53",
   "icon": "",
-  "required_commands": [],
+  "required_commands": ["unzip", "base64", "pbcopy"],
   "api_version": 1
 }
