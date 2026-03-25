@@ -80,7 +80,7 @@ export function MainView() {
       });
 
       setStep({ kind: 'validating' });
-      await validateWeWebExport(ctx.shell, extractDir, manifest.entries);
+      const { dataPrefix, htmlShell } = await validateWeWebExport(ctx.shell, extractDir, manifest.entries);
 
       // Full analysis pipeline: design tokens -> page parsing -> tree walking ->
       // workflow parsing -> shared detection -> asset copy
@@ -90,6 +90,8 @@ export function MainView() {
         manifest.entries,
         ctx.project.path,
         setStep,
+        dataPrefix,
+        htmlShell,
       );
 
       setStep({ kind: 'generating' });

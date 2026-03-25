@@ -99,6 +99,10 @@ export async function analyzeSite(
   entries: string[],
   projectPath: string,
   onProgress: (step: ZipStep) => void,
+  /** Data file prefix discovered during validation (e.g., 'data/', 'public/data/') */
+  dataPrefix: string = 'data/',
+  /** HTML shell path discovered during validation (e.g., 'index.html', 'public/front.html') */
+  htmlShell: string = 'index.html',
 ): Promise<{ siteAnalysis: SiteAnalysis; designSystem: DesignSystem; assetManifest: AssetManifest }> {
 
   // -------------------------------------------------------------------------
@@ -106,9 +110,9 @@ export async function analyzeSite(
   // -------------------------------------------------------------------------
   onProgress({ kind: 'analyzing', pageCount: 0 });
 
-  const htmlResult = await shell.exec('bash', ['-c', `base64 < '${extractDir}/index.html'`]);
+  const htmlResult = await shell.exec('bash', ['-c', `base64 < '${extractDir}/${htmlShell}'`]);
   if (htmlResult.exit_code !== 0) {
-    throw new Error(`Failed to read index.html: ${htmlResult.stderr.trim()}`);
+    throw new Error(`Failed to read ${htmlShell}: ${htmlResult.stderr.trim()}`);
   }
   const html = atob(htmlResult.stdout.trim());
   const designSystem = parseDesignTokens(html);
@@ -118,17 +122,21 @@ export async function analyzeSite(
   // -------------------------------------------------------------------------
   // Step 2: Read manifest.json for site name
   // -------------------------------------------------------------------------
-  const manifest = await readJsonFile<WeWebManifest>(shell, `${extractDir}/manifest.json`);
+  // manifest.json may be at root or under public/
+  const manifestPath = entries.includes('manifest.json')
+    ? `${extractDir}/manifest.json`
+    : `${extractDir}/public/manifest.json`;
+  const manifest = await readJsonFile<WeWebManifest>(shell, manifestPath);
   const siteName = manifest.name ?? manifest.short_name ?? 'Unnamed Site';
 
   // -------------------------------------------------------------------------
   // Step 3: Discover data/*.json page files
   // -------------------------------------------------------------------------
   const pageEntries = entries.filter(
-    (e) => e.startsWith('data/') && e.endsWith('.json') && !e.endsWith('/'),
+    (e) => e.startsWith(dataPrefix) && e.endsWith('.json') && !e.endsWith('/'),
   );
   const pageIds = pageEntries.map((e) =>
-    e.slice('data/'.length, -'.json'.length),
+    e.slice(dataPrefix.length, -'.json'.length),
   );
 
   // -------------------------------------------------------------------------
@@ -143,7 +151,7 @@ export async function analyzeSite(
     // Read and parse page JSON
     const pageJson = await readJsonFile<WeWebPageJson>(
       shell,
-      `${extractDir}/data/${pageId}.json`,
+      `${extractDir}/${dataPrefix}${pageId}.json`,
     );
     const parsedPage = parsePageData(pageJson, pageId);
 

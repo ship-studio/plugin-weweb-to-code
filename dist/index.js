@@ -363,30 +363,52 @@ function parseUnzipManifest(stdout) {
   const fileCount = fileEntries.length;
   return { fileCount, entries };
 }
+const DATA_PREFIXES = ["data/", "public/data/", "public/public/data/"];
+const HTML_CANDIDATES = ["index.html", "public/front.html", "public/index.html"];
+function findDataPrefix(entries) {
+  for (const prefix of DATA_PREFIXES) {
+    if (entries.some((e) => e.startsWith(prefix) && e.endsWith(".json"))) {
+      return prefix;
+    }
+  }
+  return null;
+}
+function findHtmlShell(entries) {
+  for (const candidate of HTML_CANDIDATES) {
+    if (entries.includes(candidate)) {
+      return candidate;
+    }
+  }
+  return null;
+}
 async function validateWeWebExport(shell, extractDir, entries) {
-  const hasDataJson = entries.some(
-    (e) => e.startsWith("data/") && e.endsWith(".json")
-  );
-  if (!hasDataJson) {
+  const dataPrefix = findDataPrefix(entries);
+  if (!dataPrefix) {
     throw new Error("No data/*.json files found — is this a WeWeb export?");
   }
-  const hasManifest = entries.some((e) => e === "manifest.json");
+  const hasManifest = entries.some(
+    (e) => e === "manifest.json" || e === "public/manifest.json"
+  );
   if (!hasManifest) {
     throw new Error("No manifest.json found — is this a WeWeb export?");
   }
+  const htmlShell = findHtmlShell(entries);
+  if (!htmlShell) {
+    throw new Error("No index.html found — is this a WeWeb export?");
+  }
   const appResult = await shell.exec("bash", [
     "-c",
-    `grep -c 'div id="app"' '${extractDir}/index.html' 2>/dev/null || echo 0`
+    `grep -c 'div id="app"' '${extractDir}/${htmlShell}' 2>/dev/null || echo 0`
   ]);
   const appCount = parseInt(appResult.stdout.trim(), 10);
   if (appCount === 0) {
     throw new Error(
-      'No <div id="app"> found in index.html — is this a WeWeb export?'
+      'No <div id="app"> found in HTML — is this a WeWeb export?'
     );
   }
   const wwcvResult = await shell.exec("bash", [
     "-c",
-    `grep -c '_wwcv=' '${extractDir}/index.html' 2>/dev/null || echo 0`
+    `grep -c '_wwcv=' '${extractDir}/${htmlShell}' 2>/dev/null || echo 0`
   ]);
   const wwcvCount = parseInt(wwcvResult.stdout.trim(), 10);
   if (wwcvCount === 0) {
@@ -394,6 +416,7 @@ async function validateWeWebExport(shell, extractDir, entries) {
       "No _wwcv= version parameter found — is this a WeWeb export?"
     );
   }
+  return { dataPrefix, htmlShell };
 }
 async function pickZipFile(shell) {
   const result = await shell.exec("osascript", [
@@ -1047,24 +1070,25 @@ function flattenObjects(objects) {
   }
   return result;
 }
-async function analyzeSite(shell, extractDir, entries, projectPath, onProgress) {
+async function analyzeSite(shell, extractDir, entries, projectPath, onProgress, dataPrefix = "data/", htmlShell = "index.html") {
   var _a;
   onProgress({ kind: "analyzing", pageCount: 0 });
-  const htmlResult = await shell.exec("bash", ["-c", `base64 < '${extractDir}/index.html'`]);
+  const htmlResult = await shell.exec("bash", ["-c", `base64 < '${extractDir}/${htmlShell}'`]);
   if (htmlResult.exit_code !== 0) {
-    throw new Error(`Failed to read index.html: ${htmlResult.stderr.trim()}`);
+    throw new Error(`Failed to read ${htmlShell}: ${htmlResult.stderr.trim()}`);
   }
   const html = atob(htmlResult.stdout.trim());
   const designSystem = parseDesignTokens(html);
   const googleFontUrls = extractGoogleFontUrls(html);
   designSystem.googleFontUrls = googleFontUrls;
-  const manifest = await readJsonFile(shell, `${extractDir}/manifest.json`);
+  const manifestPath = entries.includes("manifest.json") ? `${extractDir}/manifest.json` : `${extractDir}/public/manifest.json`;
+  const manifest = await readJsonFile(shell, manifestPath);
   const siteName = manifest.name ?? manifest.short_name ?? "Unnamed Site";
   const pageEntries = entries.filter(
-    (e) => e.startsWith("data/") && e.endsWith(".json") && !e.endsWith("/")
+    (e) => e.startsWith(dataPrefix) && e.endsWith(".json") && !e.endsWith("/")
   );
   const pageIds = pageEntries.map(
-    (e) => e.slice("data/".length, -".json".length)
+    (e) => e.slice(dataPrefix.length, -".json".length)
   );
   const allParsedPages = [];
   let parsedSoFar = 0;
@@ -1072,7 +1096,7 @@ async function analyzeSite(shell, extractDir, entries, projectPath, onProgress) 
     onProgress({ kind: "analyzing", pageCount: parsedSoFar });
     const pageJson = await readJsonFile(
       shell,
-      `${extractDir}/data/${pageId}.json`
+      `${extractDir}/${dataPrefix}${pageId}.json`
     );
     const parsedPage = parsePageData(pageJson, pageId);
     const parentSectionIndex = /* @__PURE__ */ new Map();
@@ -1894,13 +1918,15 @@ function MainView() {
         setStep({ kind: "extracting", fileCount: 0 });
       });
       setStep({ kind: "validating" });
-      await validateWeWebExport(ctx.shell, extractDir, manifest.entries);
+      const { dataPrefix, htmlShell } = await validateWeWebExport(ctx.shell, extractDir, manifest.entries);
       const analysisResult = await analyzeSite(
         ctx.shell,
         extractDir,
         manifest.entries,
         ctx.project.path,
-        setStep
+        setStep,
+        dataPrefix,
+        htmlShell
       );
       setStep({ kind: "generating" });
       const briefResult = generateBrief({

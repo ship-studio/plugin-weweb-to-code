@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { Shell } from '../types';
-import { parseUnzipManifest, validateWeWebExport } from './discover';
+import { parseUnzipManifest, validateWeWebExport, findDataPrefix, findHtmlShell } from './discover';
 
 const SAMPLE_UNZIP_OUTPUT = `  Archive:  test.zip
   Length      Date    Time    Name
@@ -55,18 +55,77 @@ describe('parseUnzipManifest', () => {
   });
 });
 
+describe('findDataPrefix', () => {
+  it('finds data/ at root level', () => {
+    expect(findDataPrefix(['data/page.json', 'index.html'])).toBe('data/');
+  });
+
+  it('finds public/data/ prefix', () => {
+    expect(findDataPrefix(['public/data/page.json', 'index.html'])).toBe('public/data/');
+  });
+
+  it('finds public/public/data/ prefix (raw export)', () => {
+    expect(findDataPrefix(['public/public/data/page.json', 'public/front.html'])).toBe('public/public/data/');
+  });
+
+  it('returns null when no data files found', () => {
+    expect(findDataPrefix(['index.html', 'manifest.json'])).toBeNull();
+  });
+});
+
+describe('findHtmlShell', () => {
+  it('finds index.html at root', () => {
+    expect(findHtmlShell(['index.html', 'data/page.json'])).toBe('index.html');
+  });
+
+  it('finds public/front.html (raw export)', () => {
+    expect(findHtmlShell(['public/front.html', 'public/public/data/page.json'])).toBe('public/front.html');
+  });
+
+  it('returns null when no HTML shell found', () => {
+    expect(findHtmlShell(['data/page.json', 'manifest.json'])).toBeNull();
+  });
+});
+
 describe('validateWeWebExport', () => {
-  it('resolves for valid entries + shell responses', async () => {
+  it('returns { dataPrefix, htmlShell } for valid entries + shell responses', async () => {
     const shell = createMockShell([
       { exit_code: 0, stdout: '1', stderr: '' }, // grep div#app returns 1
       { exit_code: 0, stdout: '2', stderr: '' }, // grep _wwcv= returns 2
     ]);
-    await expect(
-      validateWeWebExport(shell, '/tmp/out', validWeWebEntries),
-    ).resolves.toBeUndefined();
+    const result = await validateWeWebExport(shell, '/tmp/out', validWeWebEntries);
+    expect(result).toEqual({ dataPrefix: 'data/', htmlShell: 'index.html' });
   });
 
-  it('throws "No data/*.json files found" when no data/ entries', async () => {
+  it('works with public/data/ prefix (built export variant)', async () => {
+    const entries = [
+      'public/data/page1.json',
+      'manifest.json',
+      'index.html',
+    ];
+    const shell = createMockShell([
+      { exit_code: 0, stdout: '1', stderr: '' },
+      { exit_code: 0, stdout: '1', stderr: '' },
+    ]);
+    const result = await validateWeWebExport(shell, '/tmp/out', entries);
+    expect(result).toEqual({ dataPrefix: 'public/data/', htmlShell: 'index.html' });
+  });
+
+  it('works with raw export format (public/public/data/ + public/front.html)', async () => {
+    const entries = [
+      'public/public/data/page1.json',
+      'public/manifest.json',
+      'public/front.html',
+    ];
+    const shell = createMockShell([
+      { exit_code: 0, stdout: '1', stderr: '' },
+      { exit_code: 0, stdout: '1', stderr: '' },
+    ]);
+    const result = await validateWeWebExport(shell, '/tmp/out', entries);
+    expect(result).toEqual({ dataPrefix: 'public/public/data/', htmlShell: 'public/front.html' });
+  });
+
+  it('throws "No data/*.json files found" when no data/ entries at any prefix', async () => {
     const entries = ['manifest.json', 'index.html', 'assets/main.js'];
     const shell = createMockShell([]);
     await expect(
@@ -74,7 +133,7 @@ describe('validateWeWebExport', () => {
     ).rejects.toThrow('No data/*.json files found — is this a WeWeb export?');
   });
 
-  it('throws "No manifest.json found" when manifest.json missing from entries', async () => {
+  it('throws "No manifest.json found" when manifest.json missing', async () => {
     const entries = [
       'data/1dbf82d5-fa49-4d1a-94d9-27fad844ffa9.json',
       'index.html',
@@ -86,16 +145,16 @@ describe('validateWeWebExport', () => {
     ).rejects.toThrow('No manifest.json found — is this a WeWeb export?');
   });
 
-  it('throws "No <div id=\"app\">" when grep returns 0', async () => {
+  it('throws when grep div#app returns 0', async () => {
     const shell = createMockShell([
-      { exit_code: 0, stdout: '0', stderr: '' }, // grep finds nothing
+      { exit_code: 0, stdout: '0', stderr: '' },
     ]);
     await expect(
       validateWeWebExport(shell, '/tmp/out', validWeWebEntries),
-    ).rejects.toThrow('No <div id="app"> found in index.html — is this a WeWeb export?');
+    ).rejects.toThrow('No <div id="app"> found in HTML — is this a WeWeb export?');
   });
 
-  it('throws "No _wwcv= version parameter found" when _wwcv grep returns 0', async () => {
+  it('throws when _wwcv grep returns 0', async () => {
     const shell = createMockShell([
       { exit_code: 0, stdout: '1', stderr: '' }, // div#app found
       { exit_code: 0, stdout: '0', stderr: '' }, // _wwcv= not found
