@@ -8,6 +8,6 @@
   "repository": "https://github.com/ship-studio/plugin-weweb-to-code",
   "min_app_version": "0.3.53",
   "icon": "",
-  "required_commands": ["unzip", "base64", "pbcopy"],
+  "required_commands": [],
   "api_version": 1
 }
