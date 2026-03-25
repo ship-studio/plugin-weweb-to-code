@@ -212,8 +212,8 @@ export function MainView() {
             </div>
           )}
 
-          <button className="ww2c-btn-ghost" onClick={checkAndPick} style={{ width: '100%' }}>
-            Select WeWeb Export ZIP
+          <button className="btn-primary" onClick={checkAndPick} style={{ width: '100%', marginTop: '16px' }}>
+            Select WeWeb Export (.zip)
           </button>
         </>
       )}
