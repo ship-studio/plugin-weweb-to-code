@@ -12,27 +12,26 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 
 ### Validated
 
-- ✓ Plugin loads in Ship Studio toolbar with WeWeb icon and opens modal on click — Phase 1
-- ✓ User can select a WeWeb export ZIP via native file picker — Phase 1
-- ✓ Plugin extracts ZIP, validates WeWeb export structure (JSON data files, assets, HTML shell) — Phase 1
-
-- ✓ Plugin copies assets (images, icons, fonts, CSS/JS bundles) to .shipstudio/assets/ — Phase 2
-- ✓ Plugin parses JSON data files (/data/*.json) to extract page structure, sections, and component trees (wwObjects) — Phase 2
-- ✓ Plugin extracts design system from inline CSS variables (typography scales, color palette, spacing tokens) into usable token sets — Phase 2
-- ✓ Plugin detects shared layout elements (nav, footer, sidebar) across page JSON definitions — Phase 2
-- ✓ Plugin captures WeWeb workflows (triggers + action chains) as interaction specs in the brief — Phase 2
-- ✓ Plugin extracts responsive breakpoint values (mobile/tablet/default) from component state objects — Phase 2
-- ✓ Plugin maps WeWeb component types to migration guidance (what each component does, how to rebuild it) — Phase 2
-
-- ✓ Plugin generates markdown brief with site overview, design system, page structure, components, workflows, and assets — Phase 3
-
-- ✓ Plugin generates hierarchical migration plan (JSON) tracking shared layout → pages → sections — Phase 4
+- ✓ Plugin loads in Ship Studio toolbar with WeWeb icon and opens modal on click — v1.0
+- ✓ User can select a WeWeb export ZIP via native file picker — v1.0
+- ✓ Plugin extracts ZIP, validates WeWeb export structure (JSON data files, assets, HTML shell) — v1.0
+- ✓ Plugin copies assets (images, icons, fonts, CSS/JS bundles) to .shipstudio/assets/ — v1.0
+- ✓ Plugin parses JSON data files (/data/*.json) to extract page structure, sections, and component trees (wwObjects) — v1.0
+- ✓ Plugin extracts design system from inline CSS variables (typography scales, color palette, spacing tokens) into usable token sets — v1.0
+- ✓ Plugin detects shared layout elements (nav, footer, sidebar) across page JSON definitions — v1.0
+- ✓ Plugin captures WeWeb workflows (triggers + action chains) as interaction specs in the brief — v1.0
+- ✓ Plugin extracts responsive breakpoint values (mobile/tablet/default) from component state objects — v1.0
+- ✓ Plugin maps WeWeb component types to migration guidance (what each component does, how to rebuild it) — v1.0
+- ✓ Plugin generates markdown brief with site overview, design system, page structure, components, workflows, and assets — v1.0
+- ✓ Plugin generates hierarchical migration plan (JSON) tracking shared layout → pages → sections — v1.0
+- ✓ User can choose between pixel-perfect mode and best-site mode (with preserve options) — v1.0
+- ✓ User can copy brief to clipboard — v1.0
+- ✓ Plugin detects existing migration plan and shows progress UI with resume prompt — v1.0
+- ✓ Multi-session migration tracking via polling migration-plan.json — v1.0
 
 ### Active
-- [ ] User can choose between pixel-perfect mode and best-site mode (with preserve options)
-- [ ] User can copy brief to clipboard
-- [ ] Plugin detects existing migration plan and shows progress UI with resume prompt
-- [ ] Multi-session migration tracking via polling migration-plan.json
+
+(None — v1.0 complete)
 
 ### Out of Scope
 
@@ -44,14 +43,18 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 
 ## Context
 
-- This plugin mirrors the architecture of the existing webflow-to-code plugin, adapted for WeWeb's fundamentally different export format
-- WeWeb exports are SPAs: identical HTML shells with `<div id="app">`, real structure in `/data/*.json` files
-- Design system lives in inline CSS custom properties with UUID-based names (e.g., typography scales, colors, spacing)
-- WeWeb uses a component model (`wwObjects` with `sections` hierarchy) instead of semantic HTML classes
-- Workflows define interactions via JSON: triggers (click, page-load, backdrop-click) → action chains (set variable, navigate, toggle)
-- Responsive values are per-component in state objects with mobile/tablet/default breakpoints
-- External resources include Google Fonts, WeWeb icon CDN (heroicons, font-awesome, weweb-icons)
-- The existing webflow-to-code plugin provides the proven UI shell (Modal, MigrationProgress), build config, and Ship Studio integration patterns
+Shipped v1.0 with 5,279 LOC TypeScript across 30 source files.
+Tech stack: TypeScript, React 19 (peer), Vite, vitest (143 tests).
+Build output: 73 kB ES module with React externalized.
+
+Architecture mirrors the webflow-to-code sibling plugin with WeWeb-specific parsing:
+- ZIP extraction + 4-fingerprint validation (data/*.json, manifest.json, div#app, _wwcv param)
+- Design token extraction from 227 UUID CSS variables (64 font, 144 color, 19 spacing)
+- 3-pronged recursive tree walker (content.wwObjects + parentSectionId + libraryComponent roots)
+- Workflow/interaction parser with action chain linearization
+- Shared layout detection via sectionBaseId frequency (distinct pages, not instances)
+- 9-section markdown brief with depth-3 component tree cap
+- Hierarchical migration plan with 30s polling progress UI
 
 ## Constraints
 
@@ -65,10 +68,14 @@ The brief must extract enough structural and visual detail from WeWeb's JSON/CSS
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Parse JSON data files instead of HTML | WeWeb HTML is empty SPA shell; all structure is in /data/*.json | — Pending |
-| Extract design system from CSS variables | UUID-based tokens in `<head>` are the source of truth for typography, colors, spacing | — Pending |
-| Mirror webflow-to-code architecture | Proven patterns for Ship Studio plugins, reduces risk, enables code reuse for UI shell | — Pending |
-| Capture workflows as interaction specs | User wants near pixel-perfect recreation including dynamic behavior | — Pending |
+| Parse JSON data files instead of HTML | WeWeb HTML is empty SPA shell; all structure is in /data/*.json | ✓ Good |
+| Extract design system from CSS variables | UUID-based tokens in `<head>` are the source of truth for typography, colors, spacing | ✓ Good |
+| Mirror webflow-to-code architecture | Proven patterns for Ship Studio plugins, reduces risk, enables code reuse for UI shell | ✓ Good |
+| Capture workflows as interaction specs | User wants near pixel-perfect recreation including dynamic behavior | ✓ Good |
+| 3-pronged tree walker (content + parentSectionId + libraryComponent) | Single traversal mechanism missed linked sections; 3-pronged achieves 100% coverage | ✓ Good |
+| Depth-3 cap for component tree in brief | animal-detail page has 1,273 objects at depth 7; uncapped output is unusable | ✓ Good |
+| sectionBaseId frequency counts distinct pages | Instance count produces false 182% frequency; page count gives correct 71% | ✓ Good |
+| Copy-and-adapt from webflow plugin | Fastest path with minimal risk; all UI shell, configs, io patterns reused | ✓ Good |
 
 ## Evolution
 
@@ -88,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after Phase 4 completion (all phases complete)*
+*Last updated: 2026-03-25 after v1.0 milestone*
