@@ -222,16 +222,15 @@ export function MigrationProgress({ shell, projectPath, onStartFresh }: Migratio
         ))}
       </div>
       <button
-        className="ww2c-btn-ghost"
+        className="btn-primary"
         onClick={handleCopyResumePrompt}
-        style={{ width: '100%', marginTop: '12px' }}
+        style={{ width: '100%', marginTop: '12px', marginBottom: '8px' }}
       >
         {resumeCopied ? 'Prompt copied \u2014 paste into your agent' : 'Copy Resume Prompt'}
       </button>
       <button
         className="ww2c-btn-ghost"
         onClick={onStartFresh}
-        style={{ width: '100%', marginTop: '4px' }}
       >
         Start Fresh
       </button>

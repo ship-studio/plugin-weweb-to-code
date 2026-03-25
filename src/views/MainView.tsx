@@ -152,7 +152,7 @@ export function MainView() {
             Cancel
           </button>
           <button
-            className="ww2c-btn-ghost"
+            className="btn-primary"
             onClick={() => {
               setShowConfirm(false);
               startPickFlow();
@@ -269,7 +269,7 @@ export function MainView() {
           </div>
 
           <button
-            className="ww2c-btn-ghost"
+            className="btn-primary"
             onClick={async () => {
               setCopying(true);
               try {
@@ -292,7 +292,7 @@ export function MainView() {
             onClick={() => { setStep({ kind: 'idle' }); }}
             style={{ width: '100%', marginTop: '4px' }}
           >
-            Select Another
+            Start Over
           </button>
         </div>
       )}
@@ -301,9 +301,9 @@ export function MainView() {
         <>
           <div className="ww2c-error">{step.message}</div>
           <button
-            className="ww2c-btn-ghost"
+            className="btn-primary"
             onClick={() => setStep({ kind: 'idle' })}
-            style={{ marginTop: '8px' }}
+            style={{ width: '100%', marginTop: '8px' }}
           >
             Try Again
           </button>
